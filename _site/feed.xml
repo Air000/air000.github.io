@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Air&#39;s Blog</title>
+    <description>A simple yet classy theme for your Jekyll website or blog.
+</description>
+    <link>http://air000.github.io/</link>
+    <atom:link href="http://air000.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Tue, 12 Jul 2016 18:17:48 +0800</pubDate>
+    <lastBuildDate>Tue, 12 Jul 2016 18:17:48 +0800</lastBuildDate>
+    <generator>Jekyll v2.5.3</generator>
+    
+      <item>
+        <title>imx6ul gpio_spi用法</title>
+        <description>&lt;p&gt;Migarated from &lt;a href=&quot;http://blog.sina.com.cn/s/blog_64fb9b920102wbp2.html&quot;&gt;here&lt;/a&gt; at ‘2016-07-08 18:28:43’.&lt;/p&gt;
+
+&lt;!--more--&gt;
+&lt;p&gt;在imx6ul-14x14-evk.dts中有这个一个设备树节点：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;spi4 {
+	compatible = &quot;spi-gpio&quot;;
+	pinctrl-names = &quot;default&quot;;
+	pinctrl-0 = &amp;lt;&amp;amp;pinctrl_spi4&amp;gt;;
+	pinctrl-assert-gpios = &amp;lt;&amp;amp;gpio5 8 GPIO_ACTIVE_LOW&amp;gt;;
+	status = &quot;okay&quot;;
+	gpio-sck = &amp;lt;&amp;amp;gpio5 11 0&amp;gt;;
+	gpio-mosi = &amp;lt;&amp;amp;gpio5 10 0&amp;gt;;
+	cs-gpios = &amp;lt;&amp;amp;gpio5 7 0&amp;gt;;
+	num-chipselects = &amp;lt;1&amp;gt;;
+	#address-cells = &amp;lt;1&amp;gt;;
+	#size-cells = &amp;lt;0&amp;gt;;
+	gpio_spi: gpio_spi@0 {
+		compatible = &quot;fairchild,74hc595&quot;;
+		gpio-controller;
+		#gpio-cells = &amp;lt;2&amp;gt;;
+		reg = &amp;lt;0&amp;gt;;
+		registers-number = &amp;lt;1&amp;gt;;
+		registers-default = /bits/ 8 &amp;lt;0xb7&amp;gt;;
+		spi-max-frequency = &amp;lt;100000&amp;gt;;
+	};
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这个设备对应的是移位寄存器（74hc595），作用是拓展gpio口，linux中驱动代码位于drivers/gpio/gpio-74x164.c。
+SN74HC595N是德州仪器公司生产的集成电路芯片，是一个8位串行输入变串行输出或并行输出移位寄存器，具有高阻关断，高电平和低电平三态输出。在IO扩充上，可以最多串联15片，也就是高达120个IO扩充。&lt;/p&gt;
+
+&lt;p&gt;那么这种扩展出来的gpio应如何使用呢？原理图中Q0~Q7对应&amp;amp;gpio_spi0~7举两个栗子说明：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;在用户空间控制Q7 – LCD_nPWREN：&lt;/p&gt;
+
+    &lt;p&gt;&lt;code&gt;~# cat /sys/kernel/debug/gpio&lt;/code&gt;
+&lt;code&gt;GPIOs 248-255, spi/spi32766.0, 74hc595, can sleep:&lt;/code&gt;&lt;/p&gt;
+
+    &lt;p&gt;所以，Q0～Q7对应gpio248~255&lt;/p&gt;
+
+    &lt;p&gt;&lt;code&gt;~# echo 255 &amp;gt; /sys/class/gpio/export&lt;/code&gt;
+&lt;code&gt;~# echo 0/1 &amp;gt; /sys/class/gpio/gpio255/value&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;在device tree中添加控制节点：&lt;/p&gt;
+
+    &lt;pre&gt;&lt;code&gt; backlight {
+     compatible = &quot;pwm-backlight&quot;;
+     pwms = &amp;lt;&amp;amp;pwm1 0 5000000&amp;gt;;
+     brightness-levels = &amp;lt;0 4 8 16 32 64 128 255&amp;gt;;
+     default-brightness-level = &amp;lt;6&amp;gt;;
+     enable-gpios = &amp;lt;&amp;amp;gpio_spi 7 GPIO_ACTIVE_LOW&amp;gt;;
+     status = &quot;okay&quot;;
+ };
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;在backlight的驱动中drivers/video/backlight/pwm_bl.c中已经有enable-gpio的获取和使用。
+系统启动后可以看到：&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;~# cat /sys/kernel/debug/gpio&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;GPIOs 248-255, spi/spi32766.0, 74hc595, can sleep:&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;gpio-255 (enable out lo)&lt;/code&gt;&lt;/p&gt;
+
+</description>
+        <pubDate>Fri, 01 Apr 2016 14:14:00 +0800</pubDate>
+        <link>http://air000.github.io/old%20blogs/2016/04/01/14-14-33-migrated-from-sina-40.html</link>
+        <guid isPermaLink="true">http://air000.github.io/old%20blogs/2016/04/01/14-14-33-migrated-from-sina-40.html</guid>
+        
+        
+        <category>old blogs</category>
+        
+      </item>
+    
+      <item>
+        <title>imx6ul gpio 在device tree 中的配置</title>
+        <description>&lt;p&gt;Migarated from &lt;a href=&quot;http://blog.sina.com.cn/s/blog_64fb9b920102waom.html&quot;&gt;here&lt;/a&gt; at ‘2016-07-08 18:28:43’.&lt;/p&gt;
+
+&lt;!--more--&gt;
+&lt;p&gt;内核版本：linux-3.14.38
+以GPIO1_IO13为例:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;在arch/arm/boot/dts/imx6ul-14x14-evk.dts中:&lt;/p&gt;
+
+    &lt;pre&gt;&lt;code&gt; pinctrl_hog_1: hoggrp-1 {
+     fsl,pins =	&amp;lt;                             
+         MX6UL_PAD_LCD_RESET__WDOG1_WDOG_ANY   0x30b0
+         MX6UL_PAD_UART1_RTS_B__GPIO1_IO19     0x17059
+         MX6UL_PAD_GPIO1_IO05__USDHC1_VSELECT  0x17059
+         MX6UL_PAD_GPIO1_IO09__GPIO1_IO09      0x17059
+         MX6UL_PAD_JTAG_TDI__GPIO1_IO13        0xC0000000
+     &amp;gt;;
+ };
+&lt;/code&gt;&lt;/pre&gt;
+
+    &lt;p&gt;&lt;em&gt;MX6UL_PAD_JTAG_TDI__GPIO1_IO13: 宏定义引脚JTAG_TDI功能复用为GPIO13;&lt;/em&gt;&lt;/p&gt;
+
+    &lt;p&gt;0xC0000000:&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;0x80000000 is special and means “I don’t know and don’t change from the default”&lt;/li&gt;
+      &lt;li&gt;Bit 30 set to 1 means: software input on (SION) whcih means that the logical value of an output can be read back&lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;p&gt;注意：要把SION设为1，才可以用在gpio为output时读回，否则读回将为0。但根据Refernce Manual中，SION应该在software mux control registers的第四位，而0xC0000000设置的却是SW_PAD_CTL Register，而且Manual中也没看见这个寄存器能设置SION，这里很奇怪。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;在用户空间可控制gpio13:&lt;/p&gt;
+
+    &lt;pre&gt;&lt;code&gt; echo 13 &amp;gt; /sys/class/gpio/export
+ echo out &amp;gt; /sys/class/gpio/gpio2/direction
+ echo 1 &amp;gt; /sys/class/gpio/gpio2/value
+ echo 0 &amp;gt; /sys/class/gpio/gpio2/value
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;参考链接:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;https://github.com/FrankBau/meta-marsboard-bsp/wiki/iMX6-Pad-Mux-and-Pad-Control&lt;/li&gt;
+  &lt;li&gt;http://cache.freescale.com/files/32bit/doc/app_note/AN5078.pdf&lt;/li&gt;
+  &lt;li&gt;http://permalink.gmane.org/gmane.linux.ports.arm.kernel/295260&lt;/li&gt;
+  &lt;li&gt;http://www.kosagi.com/w/index.php?title=Definitive_GPIO_guide#Linux_Device_Tree_Naming_Convention&lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+        <pubDate>Wed, 16 Mar 2016 15:54:00 +0800</pubDate>
+        <link>http://air000.github.io/old%20blogs/2016/03/16/15-54-13-migrated-from-sina-39.html</link>
+        <guid isPermaLink="true">http://air000.github.io/old%20blogs/2016/03/16/15-54-13-migrated-from-sina-39.html</guid>
+        
+        
+        <category>old blogs</category>
+        
+      </item>
+    
+      <item>
+        <title>Welcome to Jekyll!</title>
+        <description>&lt;p&gt;You’ll find this post in your &lt;code&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
+
+&lt;h2 id=&quot;adding-new-posts&quot;&gt;Adding New Posts&lt;/h2&gt;
+
+&lt;p&gt;To add new posts, simply add a file in the &lt;code&gt;_posts&lt;/code&gt; directory that follows the convention &lt;code&gt;YYYY-MM-DD-name-of-post.ext&lt;/code&gt; and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.&lt;/p&gt;
+
+&lt;h3 id=&quot;tags-and-categories&quot;&gt;Tags and Categories&lt;/h3&gt;
+
+&lt;p&gt;If you list one or more categories or tags in the front matter of your post, they will be included with the post on the page as links. Clicking the link will bring you to an auto-generated archive page for the category or tag, created using the &lt;a href=&quot;https://github.com/jekyll/jekyll-archives&quot;&gt;jekyll-archive&lt;/a&gt; gem.&lt;/p&gt;
+
+&lt;h3 id=&quot;cover-images&quot;&gt;Cover Images&lt;/h3&gt;
+
+&lt;p&gt;To add a cover image to your post, set the “cover” property in the front matter with the relative URL of the image (i.e. &lt;code&gt;cover: &quot;/assets/cover_image.jpg&quot;&lt;/code&gt;).&lt;/p&gt;
+
+&lt;h3 id=&quot;code-snippets&quot;&gt;Code Snippets&lt;/h3&gt;
+
+&lt;p&gt;You can use &lt;a href=&quot;https://highlightjs.org/&quot;&gt;highlight.js&lt;/a&gt; to add syntax highlight code snippets:&lt;/p&gt;
+
+&lt;p&gt;Use the &lt;a href=&quot;https://github.com/Shopify/liquid/wiki/Liquid-for-Designers&quot;&gt;Liquid&lt;/a&gt; &lt;code&gt;{% highlight &amp;lt;language&amp;gt; %}&lt;/code&gt; tag to add syntax highlighting to code snippets.&lt;/p&gt;
+
+&lt;p&gt;For instance, this template…&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;{% highlight javascript %}    
+function demo(string, times) {    
+  for (var i = 0; i &lt;span class=&quot;nt&quot;&gt;&amp;lt; times&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;++)&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;{&lt;/span&gt;    
+    &lt;span class=&quot;na&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;);&lt;/span&gt;    
+  &lt;span class=&quot;err&quot;&gt;}&lt;/span&gt;    
+&lt;span class=&quot;err&quot;&gt;}&lt;/span&gt;    
+&lt;span class=&quot;na&quot;&gt;demo&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;(&amp;quot;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;hello&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;world&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;!&amp;quot;,&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;err&quot;&gt;{%&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;endhighlight&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;%}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;…will come out looking like this:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;demo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;times&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;times&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;demo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;hello, world!&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Syntax highlighting is done using &lt;a href=&quot;https://highlightjs.org/&quot;&gt;highlight.js&lt;/a&gt;. You can change the active theme in &lt;a href=&quot;https://github.com/bencentra/centrarium/blob/2dcd73d09e104c3798202b0e14c1db9fa6e77bc7/_includes/head.html#L15&quot;&gt;head.html&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;images&quot;&gt;Images&lt;/h3&gt;
+
+&lt;p&gt;Lightbox has been enabled for images. To create the link that’ll launch the lightbox, add &lt;code&gt;data-lightbox&lt;/code&gt; and &lt;code&gt;data-title&lt;/code&gt; attributes to an &lt;code&gt;&amp;lt;a&amp;gt;&lt;/code&gt; tag around your &lt;code&gt;&amp;lt;img&amp;gt;&lt;/code&gt; tag. The result is:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;//bencentra.com/assets/images/falcon9_large.jpg&quot; data-lightbox=&quot;falcon9-large&quot; data-title=&quot;Check out the Falcon 9 from SpaceX&quot;&gt;
+  &lt;img src=&quot;//bencentra.com/assets/images/falcon9_small.jpg&quot; title=&quot;Check out the Falcon 9 from SpaceX&quot; /&gt;
+&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;For more information, check out the &lt;a href=&quot;http://lokeshdhakar.com/projects/lightbox2/&quot;&gt;Lightbox&lt;/a&gt; website.&lt;/p&gt;
+
+&lt;p&gt;Check out the &lt;a href=&quot;http://jekyllrb.com&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;. If you have questions, you can ask them on &lt;a href=&quot;https://github.com/jekyll/jekyll-help&quot;&gt;Jekyll’s dedicated Help repository&lt;/a&gt;.&lt;/p&gt;
+
+</description>
+        <pubDate>Sat, 18 Apr 2015 16:43:59 +0800</pubDate>
+        <link>http://air000.github.io/jekyll/2015/04/18/welcome-to-jekyll.html</link>
+        <guid isPermaLink="true">http://air000.github.io/jekyll/2015/04/18/welcome-to-jekyll.html</guid>
+        
+        <category>jekyll</category>
+        
+        <category>welcome</category>
+        
+        
+        <category>jekyll</category>
+        
+      </item>
+    
+      <item>
+        <title>Dummy Post 6</title>
+        <description>&lt;p&gt;This is just a dummy post. Lorem ipsum and all the rest.&lt;/p&gt;
+
+&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 18 Apr 2015 16:43:59 +0800</pubDate>
+        <link>http://air000.github.io/dummy/2015/04/18/dummy6.html</link>
+        <guid isPermaLink="true">http://air000.github.io/dummy/2015/04/18/dummy6.html</guid>
+        
+        <category>lorem</category>
+        
+        <category>ipsum</category>
+        
+        
+        <category>dummy</category>
+        
+      </item>
+    
+      <item>
+        <title>Dummy Post 5</title>
+        <description>&lt;p&gt;This is just a dummy post. Lorem ipsum and all the rest.&lt;/p&gt;
+
+&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 18 Apr 2015 16:43:59 +0800</pubDate>
+        <link>http://air000.github.io/dummy/2015/04/18/dummy5.html</link>
+        <guid isPermaLink="true">http://air000.github.io/dummy/2015/04/18/dummy5.html</guid>
+        
+        <category>lorem</category>
+        
+        
+        <category>dummy</category>
+        
+      </item>
+    
+      <item>
+        <title>Dummy Post 4</title>
+        <description>&lt;p&gt;This is just a dummy post. Lorem ipsum and all the rest.&lt;/p&gt;
+
+&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 18 Apr 2015 16:43:59 +0800</pubDate>
+        <link>http://air000.github.io/dummy/2015/04/18/dummy4.html</link>
+        <guid isPermaLink="true">http://air000.github.io/dummy/2015/04/18/dummy4.html</guid>
+        
+        <category>ipsum</category>
+        
+        
+        <category>dummy</category>
+        
+      </item>
+    
+      <item>
+        <title>Dummy Post 3</title>
+        <description>&lt;p&gt;This is just a dummy post. Lorem ipsum and all the rest.&lt;/p&gt;
+
+&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 18 Apr 2015 16:43:59 +0800</pubDate>
+        <link>http://air000.github.io/dummy/2015/04/18/dummy3.html</link>
+        <guid isPermaLink="true">http://air000.github.io/dummy/2015/04/18/dummy3.html</guid>
+        
+        
+        <category>dummy</category>
+        
+      </item>
+    
+      <item>
+        <title>Dummy Post 2</title>
+        <description>&lt;p&gt;This is just a dummy post. Lorem ipsum and all the rest.&lt;/p&gt;
+
+&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 18 Apr 2015 16:43:59 +0800</pubDate>
+        <link>http://air000.github.io/dummy/2015/04/18/dummy2.html</link>
+        <guid isPermaLink="true">http://air000.github.io/dummy/2015/04/18/dummy2.html</guid>
+        
+        
+        <category>dummy</category>
+        
+      </item>
+    
+      <item>
+        <title>Dummy Post</title>
+        <description>&lt;p&gt;This is just a dummy post. Lorem ipsum and all the rest.&lt;/p&gt;
+
+&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 18 Apr 2015 16:43:59 +0800</pubDate>
+        <link>http://air000.github.io/dummy/2015/04/18/dummy.html</link>
+        <guid isPermaLink="true">http://air000.github.io/dummy/2015/04/18/dummy.html</guid>
+        
+        
+        <category>dummy</category>
+        
+      </item>
+    
+      <item>
+        <title>Linphone for H264 Non-Interleave mode</title>
+        <description>&lt;p&gt;Migarated from &lt;a href=&quot;http://blog.sina.com.cn/s/blog_64fb9b920102vaog.html&quot;&gt;here&lt;/a&gt; at ‘2016-07-08 18:28:43’.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;p&gt;packetization-mode:  表示支持的封包模式. &lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;当 packetization-mode 的值为 0 时或不存在时, 必须使用单一 NALU 单元模式.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;当 packetization-mode 的值为 1 时必须使用非交错(non-interleaved)封包模式.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;当packetization-mode 的值为 2 时必须使用交错(interleaved)封包模式.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;linphone中默认采用单一NALU单元模式，即（packetization-mode=0）。在coreapi/linphonecore.c中发现linphone_core_assign_payload_type(lc,&amp;amp;payload_type_h264,-1,”packetization-mode=1;profile-level-id=428014”);被注释掉了，只要打开这个注释，就可以用非交错封包模式了。&lt;/p&gt;
+
+&lt;p&gt;参考文献：&lt;a href=&quot;http://blog.csdn.net/zblue78/article/details/5948538&quot;&gt;http://blog.csdn.net/zblue78/article/details/5948538&lt;/a&gt;&lt;/p&gt;
+
+</description>
+        <pubDate>Thu, 25 Dec 2014 14:05:00 +0800</pubDate>
+        <link>http://air000.github.io/old%20blogs/2014/12/25/14-05-07-migrated-from-sina-38.html</link>
+        <guid isPermaLink="true">http://air000.github.io/old%20blogs/2014/12/25/14-05-07-migrated-from-sina-38.html</guid>
+        
+        
+        <category>old blogs</category>
+        
+      </item>
+    
+  </channel>
+</rss>

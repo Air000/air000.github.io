@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Door Control System 一直总结[1]</title>
+  <meta name="description" content="Migarated from here at ‘2016-07-08 18:28:43’.">
+  
+  <meta name="author" content="Air Xu">
+  <meta name="copyright" content="&copy; Air Xu 2016">
+  
+
+  <!-- External libraries -->
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/styles/monokai_sublime.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightbox2/2.7.1/css/lightbox.css">
+
+  <!-- Favicon and other icons (made with http://www.favicon-generator.org/) -->
+  <link rel="shortcut icon" href="/assets/icons/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/assets/icons/favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" sizes="57x57" href="/assets/icons/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/assets/icons/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/assets/icons/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/assets/icons/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/assets/icons/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/assets/icons/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/assets/icons/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/assets/icons/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192"  href="/assets/icons/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/assets/icons/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
+  <link rel="manifest" href="/assets/icons/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/assets/icons/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+
+  
+  <!-- Facebook OGP cards -->
+  <meta property="og:description" content="Migarated from here at ‘2016-07-08 18:28:43’." />
+  <meta property="og:url" content="http://air000.github.io" />
+  <meta property="og:site_name" content="Air's Blog" />
+  <meta property="og:title" content="Door Control System 一直总结[1]" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="http://air000.github.io/assets/logo.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="612" />
+  <meta property="og:image:height" content="605" />
+  
+
+  
+  <!-- Twitter: card tags -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Door Control System 一直总结[1]">
+  <meta name="twitter:description" content="Migarated from here at ‘2016-07-08 18:28:43’.">
+  <meta name="twitter:image" content="http://air000.github.io/assets/logo.png">
+  <meta name="twitter:url" content="http://air000.github.io">
+  
+
+  
+
+  <!-- Site styles -->
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://air000.github.io/old%20blogs/2012/05/01/17-18-26-migrated-from-sina-16.html">
+  <link rel="alternate" type="application/rss+xml" title="Air's Blog" href="http://air000.github.io/feed.xml" />
+</head>
+
+
+  <body>
+
+    <header class="navigation" role="banner">
+  <div class="navigation-wrapper">
+    <a href="/" class="logo">
+      
+      <img src="/assets/logo.png" alt="Air's Blog">
+      
+    </a>
+    <a href="javascript:void(0)" class="navigation-menu-button" id="js-mobile-menu">
+      <i class="fa fa-bars"></i>
+    </a>
+    <nav role="navigation">
+      <ul id="js-navigation-menu" class="navigation-menu show">
+        
+          
+          <li class="nav-link"><a href="/about/">About</a>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+          <li class="nav-link"><a href="/posts/">Posts</a>
+          
+        
+          
+          <li class="nav-link"><a href="/typography/">Typography</a>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </ul>
+    </nav>
+  </div>
+</header>
+
+
+    <div class="page-content">
+        <div class="post">
+
+<div class="post-header-container " >
+  <div class="scrim ">
+    <header class="post-header">
+      <h1 class="title">Door Control System 一直总结[1]</h1>
+      <p class="info">by <strong>Air</strong></p>
+    </header>
+  </div>
+</div>
+
+<div class="wrapper">
+
+ <span class="page-divider">
+  <span class="one"></span>
+  <span class="two"></span>
+</span>
+ 
+
+<section class="post-meta">
+  <div class="post-date">May 1, 2012</div>
+  <div class="post-categories">
+  in 
+    
+    <a href="/category/old blogs">Old blogs</a>
+    
+  
+  </div>
+</section>  
+
+<article class="post-content">
+  <p>Migarated from [here][original_blog_url] at ‘2016-07-08 18:28:43’.</p>
+
+<!--more-->
+
+<p>好久没有发博客了~并不是最近没有认真学习~反而是弄的东西有点多~一时来不及把它们一一记录下来~论文的事终于动工了~~任务是把门禁系统从rabbit上移植到linux中去~~所以最近一直都在写c</p>
+
+<p>code~总的来说遇到了一下几个方面的问题：</p>
+
+<ol>
+  <li>
+    <p>串口通信；</p>
+  </li>
+  <li>
+    <p>c 对时间的操作；</p>
+  </li>
+  <li>
+    <p>文件操作及select 函数用法；</p>
+  </li>
+  <li>
+    <p>socket操作；</p>
+  </li>
+</ol>
+
+<p>5. ftp，telnet 用法；</p>
+
+<ol>
+  <li>多线程的管理；</li>
+</ol>
+
+<p> </p>
+
+<ol>
+  <li>串口通信：</li>
+</ol>
+
+<p>问题背景：ARM板与DC(Door Control)</p>
+
+<p>通过485连接，所以需要建立串口通讯。485串口通信和232基本上是一样的。</p>
+
+<p>基础知识：http://www.ibm.com/developerworks/cn/linux/l-serials/</p>
+
+<p>ps. 另外还知道了rs232 cable</p>
+
+<p>分为交叉型和无交叉型两种，公公头或母母头为交叉型；公母头为直接性。只要理解两种接头的管脚定义就好了。以下是管脚定义及uart转rs232的原理图：</p>
+
+<p>9脚公头：</p>
+
+<p>母头就是把2、3引脚对调以下，因为是一头发送，另一头接收的嘛~</p>
+
+<p> </p>
+
+<p>具体例子可参考：</p>
+
+<p>http://control.blog.sina.com.cn/admin/article/article_add.php</p>
+
+<ol>
+  <li>C对时间的操作</li>
+</ol>
+
+<p>time()函数简介</p>
+
+<p>　　函数名： time</p>
+
+<p>　　头文件：time.h</p>
+
+<p>　　函数原型：time_t time(time_t * timer)</p>
+
+<p>　　功能: 获取当前的系统时间，返回的结果是一个time_t类型，其实就是一个大整数，其值表示从CUT（Coordinated</p>
+
+<p>Universal</p>
+
+<p>Time）时间1970年1月1日00:00:00（称为UNIX系统的Epoch时间）到当前时刻的秒数。然后调用localtime将time_t所表示的CUT时间转换为本地时间（我们是+8区，比CUT多8个小时）并转成struct</p>
+
+<p>tm类型，该类型的各数据成员分别表示年月日时分秒。</p>
+
+<p>　　补充说明：time函数的原型也可以理解为 long time(long</p>
+
+<p>*tloc)，即返回一个long型整数。因为在time.h这个头文件中time_t实际上就是：</p>
+
+<p>　　#ifndef _TIME_T_DEFINED</p>
+
+<p>　　typedef long time_t;</p>
+
+<p>　　#define _TIME_T_DEFINED</p>
+
+<p>　　#endif</p>
+
+<p>　　即long。</p>
+
+<p>函数应用举例</p>
+
+<p>　　程序例1:</p>
+
+<p>　　time函数获得日历时间。日历时间，是用“从一个标准时间点到此时的时间经过的秒数”来表示的时间。这个标准时间点对不同的编译器来说会有所不同，但对一个编译系统来说，这个标准时间点是不变的，该编译系统中的时间对应的日历时间都通过该标准时间点来衡量，所以可以说日历时间是“相对时间”，但是无论你在哪一个时区，在同一时刻对同一个标准时间点来说，日历时间都是一样的。</p>
+
+<p>　　#include <time.h></time.h></p>
+
+<p>　　#include <stdio.h></stdio.h></p>
+
+<p>　　#include <dos.h></dos.h></p>
+
+<p>　　int main(void)</p>
+
+<p>　　{</p>
+
+<p>　　time_t t; t = time(NULL);</p>
+
+<p>　　printf(“The number of seconds since January 1, 1970 is</p>
+
+<p>%ld”,t);</p>
+
+<p>　　return 0;</p>
+
+<p>　　}</p>
+
+<p>　　程序例2：</p>
+
+<p>　　//time函数也常用于随机数的生成，用日历时间作为种子。</p>
+
+<p>　　#include <stdio.h></stdio.h></p>
+
+<p>　　#include <time.h></time.h></p>
+
+<p>　　#include<stdlib.h></stdlib.h></p>
+
+<p>　　int main(void)</p>
+
+<p>　　{</p>
+
+<p>　　int i;</p>
+
+<p>　　srand((unsigned) time(NULL));</p>
+
+<p>　　printf(“ten random numbers from 0 to 99\n\n”);</p>
+
+<p>　　for(i=0;i&lt;10;i++)</p>
+
+<p>　　{</p>
+
+<p>　　printf(“%d\n”,rand()0);</p>
+
+<p>　　}</p>
+
+<p>　　return 0;</p>
+
+<p>　　}</p>
+
+<p>　　程序例3：</p>
+
+<p>　　用time()函数结合其他函数（如：localtime、gmtime、asctime、ctime）可以获得当前系统时间或是标准时间。</p>
+
+<p>　　#include <stdio.h></stdio.h></p>
+
+<p>　　#include <stddef.h></stddef.h></p>
+
+<p>　　#include <time.h></time.h></p>
+
+<p>　　int main(void)</p>
+
+<p>　　{</p>
+
+<p>　　time_t timer;//time_t就是long int 类型</p>
+
+<p>　　struct tm *tblock;</p>
+
+<p>　　timer = time(NULL);//这一句也可以改成time(&amp;timer);</p>
+
+<p>　　tblock = localtime(&amp;timer);</p>
+
+<p>　　printf(“Local time is: %s\n”,asctime(tblock));</p>
+
+<p>　　return 0;</p>
+
+<p>　　}</p>
+
+<p>ps. 以上摘自百度</p>
+
+<p>一下是C语言中tm结构体的定义：</p>
+
+<p>struct tm</p>
+
+<p>{</p>
+
+<p>int tm_sec;</p>
+
+<p>int tm_min;</p>
+
+<p>int tm_hour;</p>
+
+<p>int tm_mday;</p>
+
+<p>int tm_mon;</p>
+
+<p>int tm_year;</p>
+
+<p>int tm_wday;</p>
+
+<p>int tm_yday;</p>
+
+<p>int tm_isdst;</p>
+
+<h1 id="ifdef-usebsd">ifdef __USE_BSD</h1>
+
+<p>long int tm_gmtoff;</p>
+
+<p>__const char *tm_zone;</p>
+
+<h1 id="else">else</h1>
+
+<p>long int __tm_gmtoff;</p>
+
+<p>__const char *__tm_zone;</p>
+
+<h1 id="endif">endif</h1>
+
+<p>};</p>
+
+<p>在C语言中</p>
+
+<p>有time_t tm timeval等几种类型的时间</p>
+
+<p>1.time_t为typedef __int64 __time64_t;</p>
+
+<p>2.struct timeval</p>
+
+<p>{</p>
+
+<p>uint tv_sec;</p>
+
+<p>uint tv.usec;</p>
+
+<p>}</p>
+
+<p>具体操作函数</p>
+
+<p>包含文件:&lt;sys/time.h&gt;</p>
+
+<time.h>
+
+tm *gmtime(time_t * t);
+
+time_t time(time_t *t);
+
+char *asctime(const struct tm *timeptr);
+
+char *ctime(const time_t *timer);
+
+把tm指针转换为time_t
+
+time_t mktime(struct tm *timeptr);
+
+localtime和gmtime的区别在于gmtime将时间转换为国际标准格式，也就是相对于1970
+
+00:00:00开始的时间戳
+
+而localtime是相对于本地的时区的格式。
+
+#include<stdio.h>
+
+#include<time.h>
+
+#include&lt;sys/time.h&gt;
+
+#include<signal.h>
+
+#include<pthread.h>
+
+void quit_t()
+
+{
+
+printf("eixt now");
+
+exit(-1);
+
+}
+
+int main()
+
+{
+
+struct tm *tt;
+
+time_t t = time(NULL);
+
+tt = gmtime(&amp;t);
+
+//char *s = asctime(tt);
+
+printf("%d-%d-%d
+
+%d:%d:%d",tt-&gt;tm_year+1900,tt-&gt;tm_mon+1,tt-&gt;tm_mday,tt-&gt;tm_hour,tt-&gt;tm_min,tt-&gt;tm_sec);
+
+return 0;
+
+}
+
+
+[original_blog_url]: http://blog.sina.com.cn/s/blog_64fb9b9201012oyf.html
+</pthread.h></signal.h></time.h></stdio.h></time.h>
+
+</article>
+
+
+
+
+
+<section class="rss">
+  <p class="rss-subscribe text"><strong>Subscribe <a href="/feed.xml">via RSS</a></strong></p>
+</section>
+
+<section class="share">
+  <span>Share: </span>
+  
+    
+    
+      <a href="//twitter.com/share?text=Door%C2%A0Control%C2%A0System%C2%A0%E4%B8%80%E7%9B%B4%E6%80%BB%E7%BB%93%5B1%5D&url=http://air000.github.io/old%20blogs/2012/05/01/17-18-26-migrated-from-sina-16.html&via=Air880601"
+        onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
+        <i class="fa fa-twitter-square fa-lg"></i>
+      </a>
+    
+    
+    
+    
+    
+    
+  
+    
+    
+    
+      <a href="//www.facebook.com/sharer.php?t=Door%C2%A0Control%C2%A0System%C2%A0%E4%B8%80%E7%9B%B4%E6%80%BB%E7%BB%93%5B1%5D&u=http://air000.github.io/old%20blogs/2012/05/01/17-18-26-migrated-from-sina-16.html"
+        onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
+        <i class="fa fa-facebook-square fa-lg"></i>
+      </a>
+    
+    
+    
+    
+    
+  
+    
+    
+    
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      <a href="//plus.google.com/share?title=Door%C2%A0Control%C2%A0System%C2%A0%E4%B8%80%E7%9B%B4%E6%80%BB%E7%BB%93%5B1%5D&url=http://air000.github.io/old%20blogs/2012/05/01/17-18-26-migrated-from-sina-16.html"
+        onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
+        <i class="fa fa-google-plus-square fa-lg"></i>
+      </a>
+    
+    
+    
+    
+  
+    
+    
+    
+    
+    
+    
+    
+  
+</section>
+
+
+
+
+<section class="disqus">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    var disqus_shortname = 'air000';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+
+</div>
+</div>
+
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h3 class="footer-heading">Air's Blog</h3>
+
+    <div class="site-navigation">
+      
+      <p><strong>Site Map</strong></p>
+      <ul class="pages">
+        
+        
+          <li class="nav-link"><a href="/about/">About</a>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+          <li class="nav-link"><a href="/posts/">Posts</a>
+        
+        
+        
+          <li class="nav-link"><a href="/typography/">Typography</a>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </ul>
+    </div>
+
+    <div class="site-contact">
+
+      <p><strong>Contact</strong></p>
+      <ul class="social-media-list">
+        <li>
+          <a href="mailto:xushihan37@gmail.com">
+            <i class="fa fa-envelope-o"></i>
+            <span class="username">xushihan37@gmail.com</span>
+          </a>
+        </li>
+
+        
+          
+          <li>
+            <a href="https://twitter.com/Air880601" title="Follow me on Twitter">
+              <i class="fa fa-twitter"></i>
+              <span class="username">Air880601</span>
+            </a>
+          </li>
+          
+        
+          
+        
+          
+          <li>
+            <a href="https://github.com/air000" title="Fork me on GitHub">
+              <i class="fa fa-github"></i>
+              <span class="username">air000</span>
+            </a>
+          </li>
+          
+        
+          
+        
+          
+        
+
+      </ul>
+    </div>
+
+    <div class="site-signature">
+      <p class="rss-subscribe text"><strong>Subscribe <a href="/feed.xml">via RSS</a></strong></p>
+      <p class="text">A simple yet classy theme for your Jekyll website or blog.
+</p>
+    </div>
+
+  </div>
+
+</footer>
+
+<!-- Scripts -->
+<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/highlight.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightbox2/2.7.1/js/lightbox.min.js"></script>
+<script>
+
+$(document).ready(function() {
+
+  // Syntax highlighting
+  hljs.initHighlightingOnLoad();
+
+  // Header
+  var menuToggle = $('#js-mobile-menu').unbind();
+  $('#js-navigation-menu').removeClass("show");
+  menuToggle.on('click', function(e) {
+    e.preventDefault();
+    $('#js-navigation-menu').slideToggle(function(){
+      if($('#js-navigation-menu').is(':hidden')) {
+        $('#js-navigation-menu').removeAttr('style');
+      }
+    });
+  });
+
+
+});
+
+</script>
+
+
+
+
+  </body>
+
+</html>
